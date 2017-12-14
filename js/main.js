@@ -1,4 +1,4 @@
-let socket = io("ws://54.244.216.141:3001")
+let socket = io("ws://api.laoliuscript.tk:3001")
 
 
 
