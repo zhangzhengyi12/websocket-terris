@@ -9,6 +9,7 @@ app.listen(port);
 function bindEvent(socket, event) {
   socket.on(event, data => {
     if (socket.clientID % 2 === 0) {
+      // 如果是第二个客户端发来的事件 就发送给第一个客户端
       if (socketMap[socket.clientID - 1]) {
         socketMap[socket.clientID - 1].emit(event, data);
       }
@@ -33,11 +34,12 @@ io.on("connection", socket => {
     if (socketMap[clientCount - 1]) {
       socketMap[clientCount - 1].emit("start");
     } else {
-      //玩家进入又离开 玩家2进入 玩家2显示离线
+      //玩家1进入马上又离开 玩家2进入 玩家2显示离线
       socket.emit('leave')
     }
   }
-
+  
+  // 绑定会进行两次 同时建立两个不同的socket对象
   bindEvent(socket, "init");
   bindEvent(socket, "next");
   bindEvent(socket, "rotate");
